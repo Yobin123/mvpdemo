@@ -1,9 +1,10 @@
-package com.example.hybss.mvpdemo.view;
+package com.example.hybss.mvpdemo.view.activity;
 
 import android.content.Context;
 import android.media.tv.TvContentRating;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -66,12 +67,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         switch (tag) {
             case HomeContacts.HOME_PAGE:
                 Toast.makeText(context, "点击了首页", Toast.LENGTH_SHORT).show();
+                fr_container.setBackgroundColor(ContextCompat.getColor(context,R.color.colorAccent));
                 break;
             case HomeContacts.NEWS_PAGE:
                 Toast.makeText(context, "点击了新闻", Toast.LENGTH_SHORT).show();
+                fr_container.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimary));
                 break;
             case HomeContacts.ME_PAGE:
                 Toast.makeText(context, "点击了我的", Toast.LENGTH_SHORT).show();
+                fr_container.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimaryDark));
                 break;
         }
     }

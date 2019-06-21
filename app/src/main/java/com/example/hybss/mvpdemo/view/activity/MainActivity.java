@@ -1,4 +1,4 @@
-package com.example.hybss.mvpdemo.view;
+package com.example.hybss.mvpdemo.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.hybss.mvpdemo.R;
 import com.example.hybss.mvpdemo.contract.MainContacts;
 import com.example.hybss.mvpdemo.presenter.MainPresenter;
+import com.example.hybss.mvpdemo.view.activity.HomeActivity;
 import com.example.hybss.mvpdemo.view.base.BaseActivity;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContacts.IMain {
