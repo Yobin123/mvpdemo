@@ -41,8 +41,6 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
          */
         if (mvpPre != null) {
             mvpPre.detachView();
-            
-            
         }
     }
 }
