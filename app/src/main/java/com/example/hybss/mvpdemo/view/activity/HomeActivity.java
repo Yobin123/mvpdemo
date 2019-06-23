@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.hybss.mvpdemo.R;
 import com.example.hybss.mvpdemo.contract.activity.HomeContacts;
+import com.example.hybss.mvpdemo.net.RetrofitManager;
+import com.example.hybss.mvpdemo.net.ServerApi;
 import com.example.hybss.mvpdemo.presenter.activity.HomePresenter;
 import com.example.hybss.mvpdemo.utils.ToastUtil;
 import com.example.hybss.mvpdemo.view.base.BaseActivity;
@@ -58,6 +60,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         tv_home = fv(R.id.tv_home);
         tv_news = fv(R.id.tv_news);
         tv_mine = fv(R.id.tv_mine);
+
     }
 
     @Override
@@ -120,6 +123,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         currentFragment = targetFragment;
         return transaction;
     }
+
+
 
 
 }
