@@ -3,15 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fagment.HomeFragment">
+    tools:context=".view.fagment.HomeFragment"
+    tools:ignore="MissingDefaultResource">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
         android:layout_gravity="center"
+        android:text="首页"
         android:textColor="@color/colorPrimaryDark"
-        android:text="首页" />
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取数据" />
+
 
 </FrameLayout>

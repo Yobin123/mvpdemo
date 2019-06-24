@@ -1,29 +1,28 @@
 package com.example.hybss.mvpdemo.view.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hybss.mvpdemo.R;
-import com.example.hybss.mvpdemo.contract.activity.MainContacts;
-import com.example.hybss.mvpdemo.presenter.activity.MainPresenter;
+import com.example.hybss.mvpdemo.contract.activity.LoginContacts;
+import com.example.hybss.mvpdemo.presenter.activity.LoginPresenter;
 import com.example.hybss.mvpdemo.view.base.BaseActivity;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContacts.IMain {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContacts.IMain {
     private EditText et_username, et_password;
     private Button btn_login;
 
     @Override
-    protected MainPresenter bindPresenter() {
-        return new MainPresenter(this); //初始化相应的操作。
+    protected LoginPresenter bindPresenter() {
+        return new LoginPresenter(this); //初始化相应的操作。
     }
 
     @Override
     protected int onLayout() {
-        return R.layout.activity_main;
+        return R.layout.activity_login;
     }
 
     @Override

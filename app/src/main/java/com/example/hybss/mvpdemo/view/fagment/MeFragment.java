@@ -27,7 +27,7 @@ public class MeFragment extends BaseFragment<MeFragmentPresenter> implements MeF
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
 
     }
 

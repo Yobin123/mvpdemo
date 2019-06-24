@@ -6,13 +6,13 @@ import com.example.hybss.mvpdemo.view.intefaces.IView;
 /**
  * 创建一个契约类，便于管理相关类
  */
-public final class MainContacts {
+public final class LoginContacts {
     public interface IMain extends IView {
         void showTip(boolean isSuccess); 
     }
 
-    public interface IMainPre extends IPresenter {
-        void login(String userName, String password);
+    public interface IMainPre extends IPresenter { 
+        void login(String userName, String password);//接收view中
     }
 
     public interface IMainLgc {

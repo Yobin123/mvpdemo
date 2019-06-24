@@ -21,7 +21,7 @@ public class NewFragment extends BaseFragment<NewsFragmentPresenter> implements 
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
 
     }
 

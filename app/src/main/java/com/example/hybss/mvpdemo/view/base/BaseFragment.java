@@ -26,13 +26,16 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(layoutId(),container,false);
+        View view = inflater.inflate(layoutId(), container, false);
+        initView(view);
+        return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
+
         addListener();
         setControl();
     }
@@ -43,13 +46,13 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     ///////////////////////////////////////////////////////////////////////////
     protected abstract P bindPresenter();
 
-    protected abstract int  layoutId(); //进行资源
+    protected abstract int layoutId(); //进行资源
 
-    protected  abstract void  initView(); //进行初始化相关控件
+    protected abstract void initView(View view); //进行初始化相关控件
 
-    protected abstract void  addListener(); // 进行控件添加
+    protected abstract void addListener(); // 进行控件添加
 
-    protected abstract void  setControl(); //添加主逻辑代码
+    protected abstract void setControl(); //添加主逻辑代码
 
     ///////////////////////////////////////////////////////////////////////////
     // 抽象方法    end
