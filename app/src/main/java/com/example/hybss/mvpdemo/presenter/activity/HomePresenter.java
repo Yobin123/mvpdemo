@@ -1,6 +1,6 @@
-package com.example.hybss.mvpdemo.presenter;
+package com.example.hybss.mvpdemo.presenter.activity;
 
-import com.example.hybss.mvpdemo.contract.HomeContacts;
+import com.example.hybss.mvpdemo.contract.activity.HomeContacts;
 import com.example.hybss.mvpdemo.presenter.base.BasePresenter;
 
 public class HomePresenter extends BasePresenter<HomeContacts.IHomeView> implements HomeContacts.IHomePresenter {

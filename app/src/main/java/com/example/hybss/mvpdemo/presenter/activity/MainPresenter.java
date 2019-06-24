@@ -1,7 +1,7 @@
-package com.example.hybss.mvpdemo.presenter;
+package com.example.hybss.mvpdemo.presenter.activity;
 
-import com.example.hybss.mvpdemo.contract.MainContacts;
-import com.example.hybss.mvpdemo.moudule.MainLogic;
+import com.example.hybss.mvpdemo.contract.activity.MainContacts;
+import com.example.hybss.mvpdemo.module.MainLogic;
 import com.example.hybss.mvpdemo.presenter.base.BasePresenter;
 
 public class MainPresenter extends BasePresenter<MainContacts.IMain> implements MainContacts.IMainPre { //必须去继承baseFragment,实现锲约中的presenter类

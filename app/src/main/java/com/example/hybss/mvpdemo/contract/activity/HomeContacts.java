@@ -1,4 +1,4 @@
-package com.example.hybss.mvpdemo.contract;
+package com.example.hybss.mvpdemo.contract.activity;
 
 import com.example.hybss.mvpdemo.presenter.interfaces.IPresenter;
 import com.example.hybss.mvpdemo.view.intefaces.IView;

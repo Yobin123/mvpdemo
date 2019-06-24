@@ -8,9 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hybss.mvpdemo.R;
-import com.example.hybss.mvpdemo.contract.MainContacts;
-import com.example.hybss.mvpdemo.presenter.MainPresenter;
-import com.example.hybss.mvpdemo.view.activity.HomeActivity;
+import com.example.hybss.mvpdemo.contract.activity.MainContacts;
+import com.example.hybss.mvpdemo.presenter.activity.MainPresenter;
 import com.example.hybss.mvpdemo.view.base.BaseActivity;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContacts.IMain {
@@ -18,24 +17,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private Button btn_login;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        initView();
+    protected MainPresenter bindPresenter() {
+        return new MainPresenter(this); //初始化相应的操作。
     }
 
-    private void initView() {
+    @Override
+    protected int onLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView() {
         et_username = fv(R.id.et_username);
         et_password = fv(R.id.et_password);
         btn_login = fv(R.id.btn_login);
+    }
 
+    @Override
+    protected void addListener() {
         btn_login.setOnClickListener(this);
     }
 
     @Override
-    protected MainPresenter bindPresenter() {
-        return new MainPresenter(this); //初始化相应的操作。
+    protected void setControl() {
+
     }
 
     @Override

@@ -1,8 +1,8 @@
-package com.example.hybss.mvpdemo.moudule;
+package com.example.hybss.mvpdemo.module;
 
 import android.text.TextUtils;
 
-import com.example.hybss.mvpdemo.contract.MainContacts;
+import com.example.hybss.mvpdemo.contract.activity.MainContacts;
 
 public class MainLogic implements MainContacts.IMainLgc {
     @Override
