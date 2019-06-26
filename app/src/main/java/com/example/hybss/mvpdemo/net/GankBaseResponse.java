@@ -1,9 +1,5 @@
 package com.example.hybss.mvpdemo.net;
 
-import com.example.hybss.mvpdemo.listeners.ModuleCallback;
-
-import java.util.List;
-
 /**
  * 干货集中营相关接口
  *

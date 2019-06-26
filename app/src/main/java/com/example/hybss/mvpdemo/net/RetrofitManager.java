@@ -15,8 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitManager {
 
-    private RetrofitManager() {
-    }
 
     public static final int TIMEOUT = 15; //超时时间
     private static volatile RetrofitManager mInstance;
@@ -39,6 +37,13 @@ public class RetrofitManager {
         return mInstance;
     }
 
+    /**
+     * 初始化相关
+     */
+    private RetrofitManager() {
+        initOkhttp();
+        initRetrofit();
+    }
 
     /**
      * 初始化retrofit
@@ -77,12 +82,9 @@ public class RetrofitManager {
             }
         }
     }
+    
 
     public <T> T create(Class<T> clazz) {
-
-        initOkhttp();
-        initRetrofit();
-
         if (mRetrofit != null) {
             return mRetrofit.create(clazz);
         }
