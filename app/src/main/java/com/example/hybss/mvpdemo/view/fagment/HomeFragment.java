@@ -7,11 +7,13 @@ import android.telecom.Call;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hybss.mvpdemo.R;
 import com.example.hybss.mvpdemo.beans.WelfareBean;
 import com.example.hybss.mvpdemo.contract.fragment.HomeFragmentContacts;
 import com.example.hybss.mvpdemo.presenter.fragment.HomeFragmentPresenter;
+import com.example.hybss.mvpdemo.utils.ToastUtil;
 import com.example.hybss.mvpdemo.view.base.BaseFragment;
 
 import java.util.List;
@@ -71,4 +73,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             tv_data.setText(welfareBeanList.get(0).getDesc());
         }
     }
+
+    //请求的失败信息
+    @Override
+    public void onFailure(Throwable throwable) {
+        ToastUtil.showShort(context, throwable.getMessage().toString());
+    }
+    
 }

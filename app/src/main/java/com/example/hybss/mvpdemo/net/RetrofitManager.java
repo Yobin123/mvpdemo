@@ -5,6 +5,7 @@ import com.example.hybss.mvpdemo.constants.Constant;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.internal.http.HttpHeaders;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -69,6 +70,7 @@ public class RetrofitManager {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //关联相应的拦截器
         interceptor.setLevel(Constant.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+        
 
         if (mOkhttpClient == null) {
             synchronized ((RetrofitManager.class)) {
@@ -82,7 +84,7 @@ public class RetrofitManager {
             }
         }
     }
-    
+
 
     public <T> T create(Class<T> clazz) {
         if (mRetrofit != null) {
