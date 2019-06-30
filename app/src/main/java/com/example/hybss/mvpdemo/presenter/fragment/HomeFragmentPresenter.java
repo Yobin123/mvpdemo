@@ -18,15 +18,20 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentContacts.IH
 
     @Override
     public void getWelfareData(int page, int size) {
-        if (isViewAttach()) {
-           homeModule.getWelfareData(page, size, new ModuleCallback<List<WelfareBean>>() {
-               @Override
-               public void getModuleData(List<WelfareBean> data) {
-                   mvpRef.get().showData(data);
-               }
-           });
+        if (isViewAttach()) { //在这里做判断是为了防止view没绑定就不会去进行请求回调。
+            homeModule.getWelfareData(page, size, new ModuleCallback<List<WelfareBean>>() {
+                @Override
+                public void getModuleData(List<WelfareBean> data) {
+                    mvpRef.get().showData(data);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mvpRef.get().onFailure(throwable);
+                }
+            });
         }
     }
 
- 
+
 }

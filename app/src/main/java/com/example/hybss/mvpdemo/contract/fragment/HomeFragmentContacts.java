@@ -11,7 +11,7 @@ import java.util.List;
 public class HomeFragmentContacts {
 
     public interface IHomeModule {
-        void getWelfareData(int page, int size,ModuleCallback<List<WelfareBean>> callback);
+        void getWelfareData(int page, int size, ModuleCallback<List<WelfareBean>> callback);
     }
 
     public interface IHomePresenter extends IPresenter {
@@ -20,5 +20,7 @@ public class HomeFragmentContacts {
 
     public interface IHomeFragmentView extends IView {
         void showData(List<WelfareBean> welfareBeanList);
+
+        void onFailure(Throwable throwable); // 请求失败
     }
 }
