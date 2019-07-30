@@ -42,8 +42,8 @@ public class RetrofitManager {
      * 初始化相关
      */
     private RetrofitManager() {
-        initOkhttp();
-        initRetrofit();
+        initOkhttp();//初始化okhttp 
+        initRetrofit(); //初始retrofit
     }
 
     /**
@@ -70,8 +70,8 @@ public class RetrofitManager {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //关联相应的拦截器
         interceptor.setLevel(Constant.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+        //同时可以添加统一参数
         
-
         if (mOkhttpClient == null) {
             synchronized ((RetrofitManager.class)) {
                 if (mOkhttpClient == null) {
@@ -86,6 +86,12 @@ public class RetrofitManager {
     }
 
 
+    /**
+     * 用于创建相关类
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public <T> T create(Class<T> clazz) {
         if (mRetrofit != null) {
             return mRetrofit.create(clazz);

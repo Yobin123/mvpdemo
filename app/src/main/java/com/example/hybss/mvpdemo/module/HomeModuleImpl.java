@@ -19,7 +19,7 @@ public class HomeModuleImpl implements HomeFragmentContacts.IHomeModule {
     @Override
     public void getWelfareData(int page, int size, final ModuleCallback<List<WelfareBean>> callback) {
         //获取福利列表
-        RetrofitManager.newInstance().create(ServerApi.class).getWaleFare(page, size).enqueue(new Callback<GankBaseResponse<List<WelfareBean>>>() {
+        RetrofitManager.newInstance(). create(ServerApi.class).getWaleFare(page, size).enqueue(new Callback<GankBaseResponse<List<WelfareBean>>>() {
             @Override
             public void onResponse(Call<GankBaseResponse<List<WelfareBean>>> call, Response<GankBaseResponse<List<WelfareBean>>> response) {
                 if (response != null) {
