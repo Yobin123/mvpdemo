@@ -1,16 +1,16 @@
 package com.example.hybss.mvpdemo.oknet;
 
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
 
-import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
-import com.example.hybss.mvpdemo.net.ResponseConvert;
-import com.example.hybss.mvpdemo.view.base.MyApplication;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +23,7 @@ import okhttp3.Callback;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,6 +38,8 @@ import okhttp3.Response;
  * @Email: heyibin@huawenpicture.com
  * @Des : okhttp管理器
  * @source: https://blog.csdn.net/ytfunnysite/article/details/81002120
+ * 该管理类回调给页面的是一个json串，所以在接收页面或者处理页面还需要将该json转换为自己的model，
+ * 可以用泛型接收回调，当然前提是项目中baseResponse中添加泛型变量。
  */
 public class OkManager {
     private static OkHttpClient okHttpClient;
@@ -66,7 +69,7 @@ public class OkManager {
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .cookieJar(new CookieJar() {
                     @Override
-                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                    public void saveFromResponse(@NonNull HttpUrl url, List<Cookie> cookies) {
                         cookieStore.put(url.host(), cookies);
                     }
 
@@ -328,52 +331,172 @@ public class OkManager {
      * 不带参数的文件上传
      *
      * @param url
-     * @param fileName
+     * @param file
      * @param fileKey
      * @param callBack
      */
-    private void uploadFile(String url, String fileName, String fileKey, final ResponseCallBack callBack) {
-        uploadFileWithParam(url, fileName, fileKey, null, callBack);
+    private void uploadFile(String url, @NonNull File file, @NonNull String fileKey, final ResponseCallBack callBack) {
+        uploadFileWithParam(url, file, fileKey, null, callBack);
     }
 
     /**
      * 带参数的单文件上传
      *
      * @param url
-     * @param fileName
+     * @param file
      * @param fileKey
      * @param params
      * @param callBack
      */
-    private void uploadFileWithParam(String url, String fileName, String fileKey, Map<String, String> params, final ResponseCallBack callBack) {
+    private void uploadFileWithParam(String url, @NonNull File file, @NonNull String fileKey, Map<String, String> params, final ResponseCallBack callBack) {
+        File[] files = new File[]{file};
+        String[] fileKeys = new String[]{fileKey};
+        uploadFiles(url, files, fileKeys, params, callBack);
+    }
+
+    /**
+     * 带参数的多文件上传
+     *
+     * @param url
+     * @param files
+     * @param fileKeys
+     * @param params
+     * @param callBack
+     */
+    private void uploadFiles(String url, @NonNull File[] files, @NonNull String[] fileKeys, Map<String, String> params, final ResponseCallBack callBack) {
         if (params == null) {
             params = new HashMap<>();
         }
 
-    }
+        MultipartBody.Builder multipartBody = new MultipartBody.Builder();
 
-    private void uploadFiles(String url, File[] files, String[] fileKeys, Map<String, String> params, ResponseCallBack callBack) {
-        if(params == null){
-            params = new HashMap<>();
-        }
-
-        FormBody.Builder builder = new FormBody.Builder();
+        //添加参数
         if (params != null && params.size() > 0) {
+            FormBody.Builder builder = new FormBody.Builder();
             for (String key : params.keySet()) {
                 builder.add(key, null == params.get(key) ? "" : params.get(key));
             }
+            RequestBody requestBody = builder.build();
+            multipartBody.setType(MultipartBody.ALTERNATIVE)
+                    .addPart(requestBody);
         }
-        RequestBody requestBody = builder.build();
 
-        MultipartBody.Builder multipartBody = new MultipartBody.Builder();
-        multipartBody.setType(MultipartBody.ALTERNATIVE)
-                .addPart(requestBody);
-     
-        
-        
+
+        //添加文件
+        if (files != null) {
+            RequestBody fileBody = null;
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                String fileName = file.getName();
+                fileBody = RequestBody.create(MediaType.parse(gussMimeType(fileName)), file);
+                multipartBody.addPart(Headers.of("Content-Disposition", "form-data;" +
+                        "name = \"" + fileKeys[i] + "\";filename = \"" + fileName + "\""), fileBody);
+            }
+        }
+
+        final Request request = new Request.Builder()
+                .url(url)
+                .post(multipartBody.build())
+                .build();
+
+        Call call = okHttpClient.newCall(request);
+        callBack.onStart();
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(call, e);
+                callBack.onFinish();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    callBack.onSuccess(response.body().string());
+                    callBack.onFinish();
+                } else {
+                    callBack.onFailure(response.code(), response.message());
+                    callBack.onFinish();
+                }
+            }
+        });
+
+    }
+
+    private String gussMimeType(String fileName) {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(fileName);
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
     }
 
 
+    /**
+     * 下载文件 ，此时应该注意相应code码，不一定response.isSuccessful之后整个网络就可以传输数据的。
+     * @param url
+     * @param destFileDir
+     * @param callBack
+     */
+    private void downLoadFileAsyn(final String url, final String destFileDir, final ResponseCallBack callBack) {
+        final Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(call, e);
+                callBack.onFinish();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException { //这里应该具体情况分析 如判断code码是否是正确的，需要根据项目不同去处理
+                if (response.isSuccessful()) {
+                    InputStream is = null;
+                    byte[] buff = new byte[2048];
+                    int len = 0;
+                    FileOutputStream fos = null;
+                    is = response.body().byteStream();
+                    int separatorIndex = url.lastIndexOf("/");
+                    File file = new File(destFileDir, (separatorIndex < 0) ? url : url.substring(separatorIndex + 1, url.length()));
+                    try {
+                        fos = new FileOutputStream(file);
+                        while ((len = is.read(buff)) != -1) {
+                            fos.write(buff, 0, len);
+                        }
+                        fos.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (is != null) {
+                            try {
+                                is.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (fos != null) {
+                            try {
+                                fos.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                    callBack.onSuccess(file.getAbsolutePath());
+                } else {
+                    callBack.onFailure(response.code(), response.message());
+                    callBack.onFinish();
+                }
+
+
+            }
+        });
+    }
+
+   
     ///////////////////////////////////////////////////////////////////////////
     // 方法区 end
     ///////////////////////////////////////////////////////////////////////////
