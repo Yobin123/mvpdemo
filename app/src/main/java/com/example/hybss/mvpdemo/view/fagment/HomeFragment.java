@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.hybss.mvpdemo.R;
 import com.example.hybss.mvpdemo.beans.WelfareBean;
 import com.example.hybss.mvpdemo.contract.fragment.HomeFragmentContacts;
@@ -55,7 +56,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     protected void setControl() {
-
+       
     }
 
     @Override

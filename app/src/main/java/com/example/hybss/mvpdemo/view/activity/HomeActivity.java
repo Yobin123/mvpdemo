@@ -1,21 +1,14 @@
 package com.example.hybss.mvpdemo.view.activity;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hybss.mvpdemo.R;
 import com.example.hybss.mvpdemo.contract.activity.HomeContacts;
-import com.example.hybss.mvpdemo.net.RetrofitManager;
-import com.example.hybss.mvpdemo.net.ServerApi;
 import com.example.hybss.mvpdemo.presenter.activity.HomePresenter;
-import com.example.hybss.mvpdemo.utils.ToastUtil;
 import com.example.hybss.mvpdemo.view.base.BaseActivity;
 import com.example.hybss.mvpdemo.view.fagment.HomeFragment;
 import com.example.hybss.mvpdemo.view.fagment.MeFragment;

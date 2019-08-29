@@ -1,6 +1,9 @@
 package com.example.hybss.mvpdemo.module;
 
 
+import android.content.Context;
+
+import com.bumptech.glide.Glide;
 import com.example.hybss.mvpdemo.beans.WelfareBean;
 import com.example.hybss.mvpdemo.contract.fragment.HomeFragmentContacts;
 import com.example.hybss.mvpdemo.listeners.ModuleCallback;
@@ -45,7 +48,7 @@ public class HomeModuleImpl implements HomeFragmentContacts.IHomeModule {
 //    } 
     @Override
     public void getWelfareData(int page, int size, final ModuleCallback<List<WelfareBean>> callback) {
-        String url = String.format("http://gank.io/api/data/福利/%d/%d", 10, 1);
+        final String url = String.format("http://gank.io/api/data/福利/%d/%d", 10, 1);
         OkManager.getInstance().getAsynBackStringWithoutParams(url, new OkManager.ResponseCallBack() {
             @Override
             public void onFailure(int code, String msg) {
@@ -55,6 +58,7 @@ public class HomeModuleImpl implements HomeFragmentContacts.IHomeModule {
             @Override
             public void onSuccess(String data) {//需要解析，
                 LogUtil.d("----->>", "---->>data = " + data);
+                
             }
 
             @Override
